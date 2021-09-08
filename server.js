@@ -64,6 +64,7 @@ app.get('/api/candidate/:id', (req, res) => {
 //   console.log(row);
 // })
 
+// Delete Call from Insomnia
 app.delete('/api/candidate/:id', (req, res) => {
   const sql = `DELETE FROM candidates WHERE id=?`;
   const params = [req.params.id];
@@ -93,6 +94,7 @@ app.delete('/api/candidate/:id', (req, res) => {
 //   console.log(result);
 // })
 
+// Post call from Insomnia
 app.post('/api/candidate/', ({ body }, res) => {
   const errors = inputCheck(body, 'first_name', 'last_name', 'industry_connected');
 
