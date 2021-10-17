@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../db/connection");
+const inputCheck = require("../../utils/inputCheck");
 
 router.get('/voters', (req, res) => {
   const sql = `SELECT * FROM voters`;
@@ -66,10 +67,10 @@ router.put('/voter/:id', (req, res) => {
   const sql = `UPDATE voters SET email = ? WHERE id = ?`;
   const params = [req.body.email, req.params.id];
 
-  db.query(sql, params, (err, results) => {
+  db.query(sql, params, (err, result) => {
     if(err) {
       res.status(400).json({ error: err.message });
-    } else if(!result.affectedRows) {
+    } else if (!result.affectedRows) {
       res.json({
         message: 'Voter not found'
       });
@@ -77,7 +78,27 @@ router.put('/voter/:id', (req, res) => {
       res.json({
         message: 'success',
         data: req.body,
-        charges: results.affectedRows
+        charges: result.affectedRows
+      });
+    }
+  });
+});
+
+router.delete("/voter/:id", (req, res) => {
+  const sql = `DELETE FROM voters WHERE id = ?`;
+
+  db.query(sql, req.params.id, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: res.message });
+    } else if (!result.affectedRows) {
+      res.json({
+        message: "Voter not found",
+      });
+    } else {
+      res.json({
+        message: "deleted",
+        changes: result.affectedRows,
+        id: req.params.id,
       });
     }
   });
