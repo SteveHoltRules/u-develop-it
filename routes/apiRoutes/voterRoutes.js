@@ -84,7 +84,7 @@ router.put('/voter/:id', (req, res) => {
   });
 });
 
-router.delete("/voter/:id", (req, res) => {
+router.delete('/voter/:id', (req, res) => {
   const sql = `DELETE FROM voters WHERE id = ?`;
 
   db.query(sql, req.params.id, (err, result) => {
@@ -96,7 +96,7 @@ router.delete("/voter/:id", (req, res) => {
       });
     } else {
       res.json({
-        message: "deleted",
+        message: 'deleted',
         changes: result.affectedRows,
         id: req.params.id,
       });
